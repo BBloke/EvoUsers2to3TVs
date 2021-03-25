@@ -110,8 +110,10 @@ while ( $row = $modx->db->getRow($rs) )
 			$roleUpdate = array(
 							'setting_value' => $roleid
 							);
-			echo "Updating: ".$row['id']."<br />";
-			$modx->db->update($roleUpdate, $tbUserSettings, 'user='.$row['id']);
+			// DO NOT UPDATE EXISTING ROLES AT ALL
+			// This affects the admin account!
+			// echo "Updating: ".$row['id']."<br />";
+			// $modx->db->update($roleUpdate, $tbUserSettings, 'user='.$row['id']);
 		}
 	} else {
 		// INSERT
@@ -137,7 +139,7 @@ echo "<h1>Done!</h1>";
 echo "<h1>Creating User TV Values!</h1>";
 
 // For each user role var we need to update user values accordingly
-// for each role(field) we need to populate the value from extended
+// for each role(field) we need to populate the value from extended attributes table
 $i = 0;
 foreach ( $fields as $field )
 {
