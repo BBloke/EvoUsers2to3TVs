@@ -2,9 +2,10 @@
 /**
  * userUpdate
  *
- * <strong>v1</strong> Converts WebLoginPE extended fields into User TV Roles
+ * Converts WebLoginPE extended fields into User TV Roles
  *
  * @category	snippet
+ * @version 	1
  * @internal	@properties
  * @internal	@modx_category Content
  * @internal    @installset base, sample
