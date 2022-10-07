@@ -4,15 +4,16 @@
 
 $fields = array();
 // Change this role ID to the one you wish to choose in the Role 
-$roleid = 2;	// PowerUser
+$roleid = $roleid ?? 0;	// PowerUser
 
 // Change to match your Admin ID account.  This prevents the user_attribute for that account from being changed inadvertently.
-$adminid = 576; // Not always ID 1 so please checkdate
+$adminid = $adminid ?? 0; // Not always ID 1 so please checkdate
 
 // Whether to update existing roles to the above role id?
 // default  0 = no
 // 1 = yes
 $updateExistingRoles = 0;
+if ( empty($adminid) || empty($roleid) ) return "No Admin Specified!";
 
 // You may wish to change the attributes_extended table depending on your old system setup.
 
