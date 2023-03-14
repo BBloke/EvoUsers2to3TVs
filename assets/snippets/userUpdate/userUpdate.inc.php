@@ -119,19 +119,8 @@ if ( $_GET['update'] == 'view' || $_GET['commit'] == 'yes')
 							'role' => $roleid
 							);
 			echo "Updating: ".$row['username']." id ".$row['id']." to role ".$roleid."<br />";
-			if ( $_GET['commit'] == 'yes' ) $modx->db->update($roleUpdate, $tbUserAttributes, 'internalKey='.$row['id']);
-			
+			if ( $_GET['commit'] == 'yes' ) $modx->db->update($roleUpdate, $tbUserAttributes, 'internalKey='.$row['id'].' AND NOT internalKey='.$adminid);	
 		} 
-		
-		// Update user_attributes Role
-		if ( $row['id'] != $adminid ) {
-			$roleUpdate = array( "role" => $roleid);
-			if ( $_GET['commit'] == 'yes' )  $modx->db->update($roleUpdate, $tbUserAttributes, "internalKey = ".$row['id']);
-		}
-		if ( $row['id'] == $adminid ) {
-			$roleUpdate = array( "role" => 1);
-			if ( $_GET['commit'] == 'yes' )  $modx->db->update($roleUpdate, $tbUserAttributes, "internalKey = ".$row['id']);
-		}
 	}
 
 	echo "<h1>Done!</h1>";
