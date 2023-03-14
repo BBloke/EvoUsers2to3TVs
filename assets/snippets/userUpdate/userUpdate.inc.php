@@ -131,6 +131,7 @@ if ( $_GET['update'] == 'view' || $_GET['commit'] == 'yes')
 	// For each user role var we need to update user values accordingly
 	// for each role(field) we need to populate the value from extended
 	$i = 0;
+	echo "Fields: ".count($fields)."<br />";
 	foreach ( $fields as $field ) {
 		// first field to first role
 		$sql = "SELECT internalKey, ".$field. " FROM ". $tbExtended.";";
@@ -144,9 +145,9 @@ if ( $_GET['update'] == 'view' || $_GET['commit'] == 'yes')
 								'userid' => $row['internalKey'],
 								'value' => $row[$field]
 								);
-			echo "Updating: ".$newRolesID[$i]. " User: ".$row['internalKey']." Value: ".$row[$field]."<br />";
+			if ( !empty($row[$field]) ) echo "Updating: ".$newRolesID[$i]. " User: ".$row['internalKey']." Value: ".$row[$field]."<br />";
 			
-			if ( $_GET['commit'] == 'yes' ) $modx->db->insert($insertTVValue,  $tbUserValues);
+			if ( $_GET['commit'] == 'yes' && !empty($row[$field]) ) $modx->db->insert($insertTVValue,  $tbUserValues);
 		}
 		$i++;
 	}
