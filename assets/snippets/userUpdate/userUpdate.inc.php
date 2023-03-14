@@ -135,7 +135,7 @@ if ( $_GET['update'] == 'view' || $_GET['commit'] == 'yes')
 		// first field to first role
 		$sql = "SELECT internalKey, ".$field. " FROM ". $tbExtended.";";
 		$rs = $modx->db->query($sql);
-		//echo "<strong>".$sql."</strong><br />";
+		echo "Number of Records: ".$modx->db->getRecordCount($rs)."<br />";
 		
 		while ( $row = $modx->db->getRow($rs) ) 	{
 			//Insert TV data for each field for each user!
@@ -144,7 +144,7 @@ if ( $_GET['update'] == 'view' || $_GET['commit'] == 'yes')
 								'userid' => $row['internalKey'],
 								'value' => $row[$field]
 								);
-			echo "Updating: ".$newRolesID[$i]. " User: ".$row['internalKey']."Value: ".$row[$field]."<br />";
+			echo "Updating: ".$newRolesID[$i]. " User: ".$row['internalKey']." Value: ".$row[$field]."<br />";
 			
 			if ( $_GET['commit'] == 'yes' ) $modx->db->insert($insertTVValue,  $tbUserValues);
 		}
