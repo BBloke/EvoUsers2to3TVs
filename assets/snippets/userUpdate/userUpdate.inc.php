@@ -7,7 +7,7 @@ $fields = array();
 $roleid = $roleid ?? 0;	// PowerUser
 
 // Change to match your Admin ID account.  This prevents the user_attribute for that account from being changed inadvertently.
-$adminid = $adminid ?? 0; // Not always ID 1 so please checkdate
+$adminid = $adminid ?? 0; // Not always ID 1 so please check
 
 // Whether to update existing roles to the above role id?
 // default  0 = no
@@ -44,8 +44,7 @@ if ( $_GET['update'] == 'view' || $_GET['commit'] == 'yes')
 	$sql = "SHOW COLUMNS FROM ". $tbExtended .";";
 	$rs = $modx->db->query($sql);
 
-	while ( $row = $modx->db->getRow($rs) )
-	{
+	while ( $row = $modx->db->getRow($rs) ) {
 		$fields[] = $row['Field'];
 	}
 	
@@ -59,8 +58,7 @@ if ( $_GET['update'] == 'view' || $_GET['commit'] == 'yes')
 
 	// Create new TV's based on above field list:
 	echo "<h1>Inserting new TVs</h1>";
-	foreach ( $fields as $field )
-	{	
+	foreach ( $fields as $field ) {	
 		$insertflds = array(
 						'type' => 'text',
 						'name' => $field,
@@ -75,8 +73,7 @@ if ( $_GET['update'] == 'view' || $_GET['commit'] == 'yes')
 		print_r($insertflds);
 		echo "Inserting as TV's<br />";
 		
-		if ( $_GET['commit'] == 'yes' )
-		{
+		if ( $_GET['commit'] == 'yes' ) {
 			$modx->db->insert($insertflds, $tbSiteTVs );
 			$newId = $modx->db->getInsertId();
 		}
@@ -107,8 +104,7 @@ if ( $_GET['update'] == 'view' || $_GET['commit'] == 'yes')
 	$sql = "SELECT * FROM ".$tbUsers.";";
 	$rs = $modx->db->query($sql);
 
-	while ( $row = $modx->db->getRow($rs) )
-	{
+	while ( $row = $modx->db->getRow($rs) ) {
 		// Change role of each user
 		// This will mean inserting a record for users who haven't been backend updated 
 		// or changing the role for those that have!
@@ -117,8 +113,7 @@ if ( $_GET['update'] == 'view' || $_GET['commit'] == 'yes')
 		$rs1 = $modx->db->query($sql1);
 		$count = $modx->db->getRecordCount($rs1);
 		
-		if ( $count )
-		{
+		if ( $count ) {
 			// Update
 			$roleUpdate = array(
 							'role' => $roleid
@@ -127,24 +122,14 @@ if ( $_GET['update'] == 'view' || $_GET['commit'] == 'yes')
 			if ( $_GET['commit'] == 'yes' ) $modx->db->update($roleUpdate, $tbUserAttributes, 'internalKey='.$row['id']);
 			
 		} 
-		/*
-		else {
-			// INSERT
-			$roleInsert = array(
-							'user' => $row['id'],
-							'setting_name' => 'role',
-							'setting_value' => $roleid
-							);
-			echo "Inserting: ".$row['id']."<br />";
-			if ( $_GET['commit'] == 'yes' ) $modx->db->insert($roleInsert, $tbUserSettings);
-		}
-		*/
-		
 		
 		// Update user_attributes Role
-		if ( $row['id'] != $adminid )
-		{
+		if ( $row['id'] != $adminid ) {
 			$roleUpdate = array( "role" => $roleid);
+			if ( $_GET['commit'] == 'yes' )  $modx->db->update($roleUpdate, $tbUserAttributes, "internalKey = ".$row['id']);
+		}
+		if ( $row['id'] == $adminid ) {
+			$roleUpdate = array( "role" => 1);
 			if ( $_GET['commit'] == 'yes' )  $modx->db->update($roleUpdate, $tbUserAttributes, "internalKey = ".$row['id']);
 		}
 	}
@@ -152,19 +137,16 @@ if ( $_GET['update'] == 'view' || $_GET['commit'] == 'yes')
 	echo "<h1>Done!</h1>";
 
 	echo "<h1>Creating User TV Values!</h1>";
-
 	// For each user role var we need to update user values accordingly
 	// for each role(field) we need to populate the value from extended
 	$i = 0;
-	foreach ( $fields as $field )
-	{
+	foreach ( $fields as $field ) {
 		// first field to first role
 		$sql = "SELECT internalKey, ".$field. " FROM ". $tbExtended.";";
 		$rs = $modx->db->query($sql);
 		//echo "<strong>".$sql."</strong><br />";
 		
-		while ( $row = $modx->db->getRow($rs) )
-		{
+		while ( $row = $modx->db->getRow($rs) ) 	{
 			//Insert TV data for each field for each user!
 			$insertTVValue = array(
 								'tmplvarid' => $newRolesID[$i],
