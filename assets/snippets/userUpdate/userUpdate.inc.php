@@ -31,6 +31,8 @@ if ( $_GET['update'] == 'view' || $_GET['commit'] == 'yes')
 {
 	
 	echo "Parametes Using:<br />";
+	echo "admin ID: ".$adminid."<br />";
+	echo "role ID: ".$roleid."<br />";
 	echo $tbUsers."<br />";
 	echo $tbUserSettings."<br />";
 	echo $tbUserAttributes."<br />";
@@ -118,8 +120,8 @@ if ( $_GET['update'] == 'view' || $_GET['commit'] == 'yes')
 			$roleUpdate = array(
 							'role' => $roleid
 							);
-			echo "Updating: ".$row['username']." id ".$row['id']." to role ".$roleid."<br />";
-			if ( $_GET['commit'] == 'yes' ) $modx->db->update($roleUpdate, $tbUserAttributes, 'internalKey='.$row['id'].' AND NOT internalKey='.$adminid);	
+			if ( $row['id'] != $adminid ) echo "Updating: ".$row['username']." id ".$row['id']." to role ".$roleid."<br />";
+			if ( $_GET['commit'] == 'yes' ) $modx->db->update($roleUpdate, $tbUserAttributes, 'internalKey='.$row['id'].' AND NOT internalKey='.$adminid);
 		} 
 	}
 
