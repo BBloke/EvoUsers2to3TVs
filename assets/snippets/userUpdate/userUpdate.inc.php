@@ -7,13 +7,15 @@ $fields = array();
 $roleid = $roleid ?? 0;	// PowerUser
 
 // Change to match your Admin ID account.  This prevents the user_attribute for that account from being changed inadvertently.
+// This is now automatically found from the user table.
 $adminid = $adminid ?? 0; // Not always ID 1 so please check
+
 
 // Whether to update existing roles to the above role id?
 // default  0 = no
 // 1 = yes
 $updateExistingRoles = 0;
-if ( empty($adminid) || empty($roleid) ) return "No Admin Specified!";
+
 
 // You may wish to change the attributes_extended table depending on your old system setup.
 
@@ -27,8 +29,17 @@ $tbUserValues		= $modx->db->config['table_prefix'] . "user_values";
 $tbUserRoleVar 		= $modx->db->config['table_prefix'] . "user_role_vars";
 $tbSiteTVs 			= $modx->db->config['table_prefix'] . "site_tmplvars";
 
-if ( $_GET['update'] == 'view' || $_GET['commit'] == 'yes')
-{
+// Find admin id
+if ( empty($adminid) ) {
+	$sql = "SELECT * FROM ".$tbUsers." WHERE username='admin';";
+	$rs = $modx->db->query($sql);
+	$row = $modx->db->getRow($rs);
+	$adminid = $row['id'];
+}
+
+if ( empty($adminid) || empty($roleid) ) return "No Admin Specified or Found in the database!  You can specify the admin ID using &adminid parameter.";
+
+if ( $_GET['update'] == 'view' || $_GET['commit'] == 'yes') {
 	
 	echo "Parametes Using:<br />";
 	echo "admin ID: ".$adminid."<br />";
