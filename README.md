@@ -11,3 +11,6 @@ Example: [[userUpdate? &adminid=`600` &roleid=`2`]]
 
 adminid is the id of the admin account
 roleid is the user role id // PowerUser = 2
+
+Update: 
+You can omit the parameter adminid and the program will search the users for the 'admin' user and select it's id automatically.
